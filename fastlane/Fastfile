@@ -32,7 +32,7 @@ platform :ios do
     increment_version_number(bump_type: "patch")
     cert
     match(type: "appstore", readonly: true)
-    gym(scheme: "AlphaWallet")
+    build_app(workspace: "AlphaWallet.xcworkspace", scheme: "AlphaWallet", xcargs: "-allowProvisioningUpdates")
     commit_version_bump(message: "Version Bump", force: true)
     deliver(force: true)
     push_to_git_remote
