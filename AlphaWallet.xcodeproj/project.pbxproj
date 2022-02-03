@@ -5106,7 +5106,6 @@
 			buildPhases = (
 				7C3903F7FBE1023CAA5AED0C /* [CP] Check Pods Manifest.lock */,
 				87D5BBC12727CBB70053E6D2 /* Apollo */,
-				C83F787024A1C1DB00783B67 /* Check correct credentials used for API keys */,
 				29336FE81F6B24FF005E3BFC /* R.Swift */,
 				2912CCF11F6A830700C6CBE3 /* Sources */,
 				2912CCF21F6A830700C6CBE3 /* Frameworks */,
@@ -5256,9 +5255,9 @@
 			projectRoot = "";
 			targets = (
 				2912CCF41F6A830700C6CBE3 /* AlphaWallet */,
-				2912CD0A1F6A830700C6CBE3 /* AlphaWalletTests */,
 				878EE8EA255ADA49000210DE /* AlphaWalletShare */,
 				8703FBFC270366DA0062C416 /* AlphaWalletSafariExtension */,
+				2912CD0A1F6A830700C6CBE3 /* AlphaWalletTests */,
 			);
 		};
 /* End PBXProject section */
@@ -5532,24 +5531,6 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AlphaWalletTests/Pods-AlphaWalletTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
-		};
-		C83F787024A1C1DB00783B67 /* Check correct credentials used for API keys */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Check correct credentials used for API keys";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if [ \"${CONFIGURATION}\" = \"Release\" ]; then\n  if [ \"${PRODUCT_BUNDLE_IDENTIFIER}\" = \"com.stormbird.alphawallet\" ]; then\n    if grep -q 'static let infuraKey = \"3f22' \"AlphaWallet/Settings/Types/Constants+Credentials.swift\"; then\n        exit 0\n    else\n        echo \"Make sure Constants+Credentials.swift has the correct keys for production builds\"\n        exit 1\n    fi\n  fi\nfi\n\n\n";
 		};
 		C8FC0401219E9CC000445E21 /* R.swift */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -6820,7 +6801,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CA4F65A76A018D8DFF4A0314 /* Pods-AlphaWallet.debug.xcconfig */;
 			buildSettings = {
-				ALPHAWALLET_INFO_PLIST_FILE = AlphaWallet/Info.plist;
 				ALPHAWALLET_PRODUCT_BUNDLE_IDENTIFIER = com.stormbird.alphawallet;
 				ALPHAWALLET_PRODUCT_NAME = AlphaWallet;
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
@@ -6829,7 +6809,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 417;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = LRAW5PL536;
 				ENABLE_BITCODE = YES;
 				HEADER_SEARCH_PATHS = (
@@ -6842,7 +6822,7 @@
 					"\"$(PODS_ROOT)/libsodium/src/libsodium/include/sodium\"",
 					"\"$(PODS_ROOT)/libsodium/src/libsodium/include\"",
 				);
-				INFOPLIST_FILE = "$(ALPHAWALLET_INFO_PLIST_FILE)";
+				INFOPLIST_FILE = AlphaWallet/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -6866,7 +6846,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C6EE5EADD8373DB85ADD1966 /* Pods-AlphaWallet.release.xcconfig */;
 			buildSettings = {
-				ALPHAWALLET_INFO_PLIST_FILE = AlphaWallet/Info.plist;
 				ALPHAWALLET_PRODUCT_BUNDLE_IDENTIFIER = com.stormbird.alphawallet;
 				ALPHAWALLET_PRODUCT_NAME = AlphaWallet;
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
@@ -6875,7 +6854,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 417;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = LRAW5PL536;
 				ENABLE_BITCODE = YES;
 				HEADER_SEARCH_PATHS = (
@@ -6888,7 +6867,7 @@
 					"\"$(PODS_ROOT)/libsodium/src/libsodium/include/sodium\"",
 					"\"$(PODS_ROOT)/libsodium/src/libsodium/include\"",
 				);
-				INFOPLIST_FILE = "$(ALPHAWALLET_INFO_PLIST_FILE)";
+				INFOPLIST_FILE = AlphaWallet/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -6929,6 +6908,7 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AlphaWallet.app/AlphaWallet";
 				VALID_ARCHS = "$(ARCHS_STANDARD)";
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
 		};
@@ -6954,6 +6934,7 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AlphaWallet.app/AlphaWallet";
 				VALID_ARCHS = "$(ARCHS_STANDARD)";
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
 		};
@@ -6967,7 +6948,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = LRAW5PL536;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AlphaWalletSafariExtension/Info.plist;
@@ -6992,6 +6973,7 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
 		};
@@ -7005,7 +6987,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = LRAW5PL536;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AlphaWalletSafariExtension/Info.plist;
@@ -7029,6 +7011,7 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
 		};
@@ -7041,7 +7024,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 368;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = LRAW5PL536;
 				INFOPLIST_FILE = AlphaWalletShare/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -7072,7 +7055,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 368;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = LRAW5PL536;
 				INFOPLIST_FILE = AlphaWalletShare/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;

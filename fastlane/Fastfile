@@ -11,7 +11,7 @@
 
 # This is the minimum version number required.
 # Update this, if you use features of a newer version
-fastlane_version "2.62.1"
+fastlane_version "2.204.0"
 
 default_platform :ios
 
@@ -64,6 +64,19 @@ platform :ios do
   end
 
   # You can define as many lanes as you want
+
+  desc "Test new release lane"
+  lane :testrelease do
+    cocoapods(use_bundle_exec: false)
+    increment_build_number(xcodeproj: "AlphaWallet.xcodeproj")
+    ensure_git_branch(branch: "test-3205")
+    increment_version_number(bump_type: "patch")
+    # increment_version_number(version_number: "1.0.0" # Set a specific version number)
+    # build_app(workspace: "AlphaWallet.xcworkspace", scheme: "AlphaWallet", xcargs: "-allowProvisioningUpdates")
+    commit_version_bump(message: "Version Bump", force: true)
+    # deliver(force: true)
+    # push_to_git_remote
+  end
 
   after_all do |lane|
     # This block is called, only if the executed lane was successful

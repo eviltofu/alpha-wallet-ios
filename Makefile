@@ -1,5 +1,5 @@
 brew_cmd = brew
-bundle_cmd = ./vendor/bundle/gems/bundler-2.2.33/exe/bundle
+bundle_cmd = ./vendor/bundle/bin/bundle
 gem_cmd = gem
 bundle_gem = "bundler:2.2.33"
 vendor_path = ./vendor/bundle
@@ -79,7 +79,7 @@ clean:
 	rm -rf ./Pods/*
 
 release:
-	fastlane release
+	@$(bundle_cmd) exec fastlane testrelease
 
 setup_path:
 	@$(bundle_cmd) config path $(vendor_path)
