@@ -72,10 +72,10 @@ platform :ios do
     ensure_git_branch(branch: "test-3205")
     increment_version_number(bump_type: "patch")
     # increment_version_number(version_number: "1.0.0" # Set a specific version number)
-    # build_app(workspace: "AlphaWallet.xcworkspace", scheme: "AlphaWallet", xcargs: "-allowProvisioningUpdates")
-    commit_version_bump(message: "Version Bump", force: true)
+    build_app(workspace: "AlphaWallet.xcworkspace", scheme: "AlphaWallet", xcargs: "-allowProvisioningUpdates")
+    commit_version_bump(message: "Version Bump", force: true, xcodeproj: "AlphaWallet.xcodeproj")
     # deliver(force: true)
-    # push_to_git_remote
+    push_to_git_remote
   end
 
   after_all do |lane|
