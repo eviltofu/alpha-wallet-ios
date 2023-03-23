@@ -114,6 +114,12 @@ class AppCoordinator: NSObject, Coordinator {
 
         return service
     }()
+    private let tokenGroupIdentifier = TokenGroupIdentifier.identifier(fromFileName: "tokens")!
+    private lazy var tokensFilter: TokensFilter = {
+        return TokensFilter(
+            tokenActionsService: tokenActionsService,
+            tokenGroupIdentifier: tokenGroupIdentifier)
+    }()
     private lazy var serversProvider: ServersProvidable = {
         BaseServersProvider(config: config)
     }()
@@ -442,6 +448,7 @@ class AppCoordinator: NSObject, Coordinator {
 
         let dep = buildDependencies(for: wallet)
 
+        // TODO: - Change this to accept tokensfilter
         let coordinator = ActiveWalletCoordinator(
             navigationController: navigationController,
             activitiesPipeLine: dep.activitiesPipeLine,
@@ -466,6 +473,7 @@ class AppCoordinator: NSObject, Coordinator {
             tokenCollection: dep.pipeline,
             transactionsDataStore: dep.transactionsDataStore,
             tokensService: dep.tokensService,
+            tokensFilter: tokensFilter,
             lock: lock,
             currencyService: currencyService,
             tokenScriptOverridesFileManager: tokenScriptOverridesFileManager,

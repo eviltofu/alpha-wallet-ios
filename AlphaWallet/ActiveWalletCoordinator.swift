@@ -28,11 +28,13 @@ class ActiveWalletCoordinator: NSObject, Coordinator {
     private let activitiesPipeLine: ActivitiesPipeLine
     private let sessionsProvider: SessionsProvider
     private let currencyService: CurrencyService
-    private lazy var tokensFilter: TokensFilter = {
-        return TokensFilter(
-            tokenActionsService: tokenActionsService,
-            tokenGroupIdentifier: TokenGroupIdentifier.identifier(fromFileName: "tokens")!)
-    }()
+    private let tokensFilter: TokensFilter
+// TODO: Remove This
+//    private lazy var tokensFilter: TokensFilter = {
+//        return TokensFilter(
+//            tokenActionsService: tokenActionsService,
+//            tokenGroupIdentifier: TokenGroupIdentifier.identifier(fromFileName: "tokens")!)
+//    }()
 
     internal let tokenCollection: TokenCollection
 
@@ -165,7 +167,8 @@ class ActiveWalletCoordinator: NSObject, Coordinator {
          sessionsProvider: SessionsProvider,
          tokenCollection: TokenCollection,
          transactionsDataStore: TransactionDataStore,
-         tokensService: DetectedContractsProvideble & TokensProvidable & TokenAddable,
+         tokensService: DetectedContractsProvideble & TokenProvidable & TokenAddable,
+         tokensFilter: TokensFilter,
          lock: Lock,
          currencyService: CurrencyService,
          tokenScriptOverridesFileManager: TokenScriptOverridesFileManager,
@@ -183,6 +186,7 @@ class ActiveWalletCoordinator: NSObject, Coordinator {
         self.tokenScriptOverridesFileManager = tokenScriptOverridesFileManager
         self.lock = lock
         self.tokensService = tokensService
+        self.tokensFilter = tokensFilter
         self.transactionsDataStore = transactionsDataStore
         self.tokenCollection = tokenCollection
         self.activitiesPipeLine = activitiesPipeLine
