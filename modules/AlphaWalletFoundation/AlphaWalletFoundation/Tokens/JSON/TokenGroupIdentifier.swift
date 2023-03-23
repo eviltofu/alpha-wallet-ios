@@ -135,6 +135,7 @@ public protocol TokenGroupIdentifierProtocol {
 public class TokenGroupIdentifier: TokenGroupIdentifierProtocol {
 
     private var decodedTokenEntries: TokenGroupDictionary = TokenGroupDictionary()
+    private var spamTokenEntries: Set<String> = Set<String>()
 
     public static func identifier(fromFileName fileName: String) -> TokenGroupIdentifierProtocol? {
         guard let reader = TokenJsonReader(fromLocalFileNameWithoutSuffix: fileName) else { return nil }
@@ -147,8 +148,12 @@ public class TokenGroupIdentifier: TokenGroupIdentifierProtocol {
     }
 
     private init(decodedTokenEntries: TokenGroupDictionary) {
-        self.decodedTokenEntries = decodedTokenEntries.filter { _, group in
-            return group != TokenGroup.spam
+        decodedTokenEntries.forEach { key, value in
+            if value == TokenGroup.spam {
+                spamTokenEntries.insert(key.lowercased())
+            } else {
+                self.decodedTokenEntries[key] = value
+            }
         }
     }
 
@@ -161,6 +166,10 @@ public class TokenGroupIdentifier: TokenGroupIdentifierProtocol {
 
     public func hasContract(address: String, chainID: Int) -> Bool {
         return decodedTokenEntries["\(address):\(chainID)"] != nil
+    }
+
+    public func isSpam(address: String, chainID: Int) -> Bool {
+        return spamTokenEntries.contains("\(address):\(chainID)".lowercased())
     }
 }
 
