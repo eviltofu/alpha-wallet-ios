@@ -187,9 +187,11 @@ public enum TokenFieldUpdate {
 // swiftlint:disable type_body_length
 open class MultipleChainsTokensDataStore: NSObject, TokensDataStore {
     private let store: RealmStore
+    private let tokenGroupIdentifier: TokenGroupIdentifierProtocol
 
-    public init(store: RealmStore) {
+    public init(store: RealmStore, tokensGroupIdentifier: TokenGroupIdentifierProtocol) {
         self.store = store
+        self.tokenGroupIdentifier = tokensGroupIdentifier
         super.init()
 
         MultipleChainsTokensDataStore.functional.recreateMissingInfoTokenObjects(for: store)

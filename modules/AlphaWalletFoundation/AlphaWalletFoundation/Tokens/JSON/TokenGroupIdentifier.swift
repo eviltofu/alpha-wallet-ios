@@ -130,6 +130,7 @@ public protocol TokenGroupIdentifierProtocol {
     static func identifier(fromFileName: String) -> TokenGroupIdentifierProtocol?
     func identify(token: TokenGroupIdentifiable) -> TokenGroup
     func hasContract(address: String, chainID: Int) -> Bool
+    func isSpam(address: String, chainID: Int) -> Bool
 }
 
 public class TokenGroupIdentifier: TokenGroupIdentifierProtocol {

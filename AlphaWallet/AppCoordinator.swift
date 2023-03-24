@@ -606,7 +606,7 @@ class AppCoordinator: NSObject, Coordinator {
     private func buildDependencies(for wallet: Wallet) -> WalletDependencies {
         if let dep = dependencies[wallet] { return dep  }
 
-        let tokensDataStore: TokensDataStore = MultipleChainsTokensDataStore(store: .storage(for: wallet))
+        let tokensDataStore: TokensDataStore = MultipleChainsTokensDataStore(store: .storage(for: wallet), tokensGroupIdentifier: tokenGroupIdentifier)
         let eventsDataStore: NonActivityEventsDataStore = NonActivityMultiChainEventsDataStore(store: .storage(for: wallet))
         let transactionsDataStore: TransactionDataStore = TransactionDataStore(store: .storage(for: wallet))
         let eventsActivityDataStore: EventsActivityDataStoreProtocol = EventsActivityDataStore(store: .storage(for: wallet))
