@@ -167,7 +167,7 @@ class ActiveWalletCoordinator: NSObject, Coordinator {
          sessionsProvider: SessionsProvider,
          tokenCollection: TokenCollection,
          transactionsDataStore: TransactionDataStore,
-         tokensService: DetectedContractsProvideble & TokenProvidable & TokenAddable,
+         tokensService: DetectedContractsProvideble & TokensProvidable & TokenAddable,
          tokensFilter: TokensFilter,
          lock: Lock,
          currencyService: CurrencyService,
