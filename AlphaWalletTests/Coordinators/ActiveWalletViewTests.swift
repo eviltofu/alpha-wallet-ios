@@ -67,6 +67,39 @@ extension AssetDefinitionStore {
 class ActiveWalletViewTests: XCTestCase {
 
     private let currencyService = CurrencyService.make()
+    private let tokenGroupIdentifier = TokenGroupIdentifier.identifier(fromFileName: "tokens")!
+    private lazy var networkService: NetworkService = FakeNetworkService()
+    private lazy var tokenActionsService: TokenActionsService = {
+        let service = TokenActionsService()
+        service.register(service: BuyTokenProvider(subProviders: [
+            Coinbase(action: R.string.localizable.aWalletTokenBuyOnCoinbaseTitle()),
+            Ramp(action: R.string.localizable.aWalletTokenBuyOnRampTitle(), networkProvider: RampNetworkProvider(networkService: networkService))
+        ], action: R.string.localizable.aWalletTokenBuyTitle()))
+
+        let honeySwapService = HoneySwap(action: R.string.localizable.aWalletTokenErc20ExchangeHoneyswapButtonTitle())
+        // honeySwapService.theme = navigationController.traitCollection.honeyswapTheme
+
+        let quickSwap = QuickSwap(action: R.string.localizable.aWalletTokenErc20ExchangeOnQuickSwapButtonTitle())
+        // quickSwap.theme = navigationController.traitCollection.uniswapTheme
+        var availableSwapProviders: [SupportedTokenActionsProvider & TokenActionProvider] = [
+            honeySwapService,
+            quickSwap,
+            Oneinch(action: R.string.localizable.aWalletTokenErc20ExchangeOn1inchButtonTitle(), networkProvider: OneinchNetworkProvider(networkService: networkService)),
+            //uniswap
+        ]
+        // availableSwapProviders += Features.default.isAvailable(.isSwapEnabled) ? [SwapTokenNativeProvider(tokenSwapper: tokenSwapper)] : []
+
+        service.register(service: SwapTokenProvider(subProviders: availableSwapProviders, action: R.string.localizable.aWalletTokenSwapButtonTitle()))
+        service.register(service: ArbitrumBridge(action: R.string.localizable.aWalletTokenArbitrumBridgeButtonTitle()))
+        service.register(service: xDaiBridge(action: R.string.localizable.aWalletTokenXDaiBridgeButtonTitle()))
+
+        return service
+    }()
+    private lazy var tokensFilter: TokensFilter = {
+        return TokensFilter(
+            tokenActionsService: tokenActionsService,
+            tokenGroupIdentifier: tokenGroupIdentifier)
+    }()
 
     func testShowTabBar() {
         let config: Config = .make()
@@ -111,6 +144,7 @@ class ActiveWalletViewTests: XCTestCase {
             tokenCollection: dep.pipeline,
             transactionsDataStore: dep.transactionsDataStore,
             tokensService: dep.tokensService,
+            tokensFilter: tokensFilter,
             lock: FakeLock(),
             currencyService: currencyService,
             tokenScriptOverridesFileManager: .fake(),
@@ -195,6 +229,7 @@ class ActiveWalletViewTests: XCTestCase {
             tokenCollection: dep1.pipeline,
             transactionsDataStore: dep1.transactionsDataStore,
             tokensService: dep1.tokensService,
+            tokensFilter: tokensFilter,
             lock: FakeLock(),
             currencyService: currencyService,
             tokenScriptOverridesFileManager: .fake(),
@@ -233,6 +268,7 @@ class ActiveWalletViewTests: XCTestCase {
             tokenCollection: dep2.pipeline,
             transactionsDataStore: dep2.transactionsDataStore,
             tokensService: dep2.tokensService,
+            tokensFilter: tokensFilter,
             lock: FakeLock(),
             currencyService: currencyService,
             tokenScriptOverridesFileManager: .fake(),
@@ -289,6 +325,7 @@ class ActiveWalletViewTests: XCTestCase {
                 tokenCollection: dep.pipeline,
                 transactionsDataStore: dep.transactionsDataStore,
                 tokensService: dep.tokensService,
+                tokensFilter: tokensFilter,
                 lock: FakeLock(),
                 currencyService: currencyService,
                 tokenScriptOverridesFileManager: .fake(),
@@ -349,6 +386,7 @@ class ActiveWalletViewTests: XCTestCase {
             tokenCollection: dep.pipeline,
             transactionsDataStore: dep.transactionsDataStore,
             tokensService: dep.tokensService,
+            tokensFilter: tokensFilter,
             lock: FakeLock(),
             currencyService: currencyService,
             tokenScriptOverridesFileManager: .fake(),
@@ -406,6 +444,7 @@ class ActiveWalletViewTests: XCTestCase {
             tokenCollection: dep.pipeline,
             transactionsDataStore: dep.transactionsDataStore,
             tokensService: dep.tokensService,
+            tokensFilter: tokensFilter,
             lock: FakeLock(),
             currencyService: currencyService,
             tokenScriptOverridesFileManager: .fake(),
@@ -486,6 +525,7 @@ class ActiveWalletViewTests: XCTestCase {
                         tokenCollection: dep.pipeline,
                         transactionsDataStore: dep.transactionsDataStore,
                         tokensService: dep.tokensService,
+                        tokensFilter: self.tokensFilter,
                         lock: FakeLock(),
                         currencyService: self.currencyService,
                         tokenScriptOverridesFileManager: .fake(),
