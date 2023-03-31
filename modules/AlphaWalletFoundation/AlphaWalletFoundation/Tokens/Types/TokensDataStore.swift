@@ -433,6 +433,13 @@ open class MultipleChainsTokensDataStore: NSObject, TokensDataStore {
                         if let tokenObject = self.tokenObject(forContract: token.contract, server: token.server, realm: realm) {
                             tokens += [Token(tokenObject: tokenObject)]
                         }
+                        if self.tokenGroupIdentifier.isSpam(address: tokenObject.contract, chainID: tokenObject.chainId) {
+                            NSLog(">>> Identified Spam %@", tokenObject.primaryKey)
+                            // DispatchQueue.main.async {
+                            self.updateToken(primaryKey: tokenObject.primaryKey, action: .isHidden(true))
+                            NSLog(">>> Spammed %@", tokenObject.primaryKey)
+                            // }
+                        }
                     case .update(let token, let action):
                         if let action = action {
                             self.updateTokenWithoutCommitWrite(primaryKey: token.primaryKey, action: action, realm: realm)
